@@ -6,7 +6,7 @@
 /*   By: jporta <jporta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/17 18:40:34 by jsanfeli          #+#    #+#             */
-/*   Updated: 2022/03/01 18:26:13 by jporta           ###   ########.fr       */
+/*   Updated: 2022/03/01 20:40:17 by jporta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,11 @@
 
 void	ft_finthread(t_gen *gen)
 {
-/* 	int	i;
-
-	i = -1;
-	while (++i < gen->philo_num)
-	{
-		pthread_mutex_unlock(&gen->mutex_forks[i]);
-	} */
-	//pthread_mutex_destroy(gen->mutex_forks);
 	pthread_mutex_unlock(&gen->wait);
 	pthread_mutex_destroy(&gen->wait);
-	//free(gen->forks);
+	free(gen->forks);
+	free(gen->mutex_forks);
 	free(gen->threads);
-	system("leaks philo");
 }
 
 int	ft_errors(int argc, char **argv)
@@ -66,9 +58,9 @@ t_gen	structinit(char **argv, int argc)
 	gettimeofday(&gen.reftime, NULL);
 	gen.firsttime = ((unsigned long)gen.reftime.tv_sec * 1000)
 		+ ((unsigned long)gen.reftime.tv_usec / 1000);
-	gen.forks = (int *)malloc(gen.philo_num);
-	gen.mutex_forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
-	gen.threads = (pthread_t *)malloc(sizeof(pthread_t));
+	gen.forks = calloc(sizeof(int), gen.philo_num);
+	gen.mutex_forks = calloc(sizeof(pthread_mutex_t), gen.philo_num);
+	gen.threads = calloc(sizeof(pthread_t), gen.philo_num);
 	return (gen);
 }
 
@@ -95,7 +87,7 @@ void	pickfork(t_philo *philo)
 			philo->count++;
 		}
 		pthread_mutex_unlock(philo->mutex_right);
-		usleep(20);
+		usleep(100);
 		pthread_mutex_lock(philo->mutex_left);
 		if (philo->lst->running == 1
 			&& philo->lst->forks[philo->fork_left] == 0)
@@ -104,7 +96,7 @@ void	pickfork(t_philo *philo)
 			pressftotalk(philo, 1);
 			philo->count++;
 		}
-		usleep(20);
+		usleep(100);
 		pthread_mutex_unlock(philo->mutex_left);
 	}
 	philo->count = 0;

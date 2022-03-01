@@ -1,7 +1,0 @@
-make --dry-run --keep-going --print-directory
-make: Entering directory `/Users/jporta/Documents/kiriphilo'
- 
-make: Leaving directory `/Users/jporta/Documents/kiriphilo'
- 
-make: *** No targets specified and no makefile found.  Stop.
- 

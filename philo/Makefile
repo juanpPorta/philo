@@ -18,6 +18,8 @@ CFLAGS := -Wall -Wextra -Werror
 MV := mv -f
 RM := rm -f
 
+
+
 %.o: %.c
 	$(GCC) $(CFLAGS) -c $< -I $(INC_DIR) -o $@ 
 

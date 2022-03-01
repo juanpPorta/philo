@@ -6,7 +6,7 @@
 /*   By: jporta <jporta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/17 17:37:09 by jsanfeli          #+#    #+#             */
-/*   Updated: 2022/03/01 18:05:26 by jporta           ###   ########.fr       */
+/*   Updated: 2022/03/01 20:25:27 by jporta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,7 @@ void	phinit(t_philo *philo, t_gen *gen)
 
 	i = -1;
 	while (++i < gen->philo_num)
-	{
 		pthread_mutex_init(&gen->mutex_forks[i], NULL);
-		gen->forks[i] = 0;
-	}
 	i = 0;
 	while (i < gen->philo_num)
 	{

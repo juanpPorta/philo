@@ -6,7 +6,7 @@
 /*   By: jporta <jporta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/17 17:31:47 by jsanfeli          #+#    #+#             */
-/*   Updated: 2022/03/01 18:25:15 by jporta           ###   ########.fr       */
+/*   Updated: 2022/03/01 20:48:59 by jporta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ void	pressftotalk(t_philo *philo, int i)
 	{
 		philo->eats++;
 		printf(COLOR_MAGENTA
-			"%lu %d is eating\n" COLOR_RESET, timestamp(philo),
-			philo->index);
+			"%lu %d is eating eats: %d\n" COLOR_RESET, timestamp(philo),
+			philo->index, philo->eats);
 	}
 	else if (i == 4 && philo->lst->running == 1)
 		printf(COLOR_CYAN
@@ -48,11 +48,10 @@ void	*managment_2(void *prueba)
 	myusleep(100, philo);
 	getupdatetime(philo);
 	if (philo->index % 2 == 0)
-		myusleep(philo->lst->eattime, philo);
+		myusleep(philo->lst->timetosleep, philo);
 	while (philo->lst->running == 1 && philo->eats < (int)philo->lst->eattime)
 	{
 		pickfork(philo);
-		usleep(20);
 		getupdatetime(philo);
 		if (philo->lst->running == 1)
 			pressftotalk(philo, 3);
@@ -71,11 +70,10 @@ void	*managment_1(void *prueba)
 	myusleep(100, philo);
 	getupdatetime(philo);
 	if (philo->index % 2 == 0)
-		myusleep(philo->lst->timetoeat, philo);
+		myusleep(philo->lst->timetosleep, philo);
 	while (philo->lst->running == 1)
 	{
 		pickfork(philo);
-		usleep(20);
 		getupdatetime(philo);
 		if (philo->lst->running == 1)
 			pressftotalk(philo, 3);
@@ -102,7 +100,7 @@ void	deathswitch(t_philo *philo, t_gen *gen)
 				pressftotalk(&philo[i[0]], 5);
 				return ;
 			}
-			usleep(500);
+			usleep(100);
 		}
 		if (((int)gen->eattime * gen->philo_num) == i[1] && gen->eattime != 0)
 		{
