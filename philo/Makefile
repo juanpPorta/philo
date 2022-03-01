@@ -21,7 +21,7 @@ RM := rm -f
 	$(GCC) $(CFLAGS) -c $< -I $(INC_DIR) -o $@ 
 
 $(NAME):  $(OBJS)
-	gcc ./source/*.o -o philo
+	gcc ./source/*.o  -o philo
 
 
 

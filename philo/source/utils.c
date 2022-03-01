@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsanfeli <jsanfeli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jporta <jporta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/17 18:40:34 by jsanfeli          #+#    #+#             */
-/*   Updated: 2022/02/03 16:53:55 by jsanfeli         ###   ########.fr       */
+/*   Updated: 2022/03/01 17:09:20 by jporta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,13 @@ void	ft_finthread(t_gen *gen)
 {
 	int	i;
 
-	i = -1;
+	/* i = -1;
 	while (++i < gen->philo_num)
 	{
-		pthread_mutex_unlock(&gen->mutex_forks[i]);
-		pthread_mutex_destroy(&gen->mutex_forks[i]);
-	}
+		//pthread_mutex_unlock(&gen->mutex_forks[i]);
+		//pthread_mutex_destroy(&gen->mutex_forks[i]);
+		
+	} */
 	pthread_mutex_unlock(&gen->wait);
 	pthread_mutex_destroy(&gen->wait);
 	free(gen->forks);
@@ -73,7 +74,6 @@ void	sleeping(t_philo *philo)
 	{
 		philo->lst->forks[philo->fork_right] = 0;
 		philo->lst->forks[philo->fork_left] = 0;
-		philo->count = 0;
 		pressftotalk(philo, 4);
 	}
 }
@@ -88,19 +88,20 @@ void	pickfork(t_philo *philo)
 		{
 			philo->lst->forks[philo->fork_right] = 1;
 			pressftotalk(philo, 1);
-			usleep(100);
 			philo->count++;
 		}
 		pthread_mutex_unlock(philo->mutex_right);
+		usleep(50);
 		pthread_mutex_lock(philo->mutex_left);
 		if (philo->lst->running == 1
 			&& philo->lst->forks[philo->fork_left] == 0)
 		{
 			philo->lst->forks[philo->fork_left] = 1;
 			pressftotalk(philo, 1);
-			usleep(100);
 			philo->count++;
 		}
+		usleep(50);
 		pthread_mutex_unlock(philo->mutex_left);
 	}
+	philo->count = 0;
 }
