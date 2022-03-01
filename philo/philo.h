@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsanfeli <jsanfeli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jporta <jporta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/17 17:31:20 by jsanfeli          #+#    #+#             */
-/*   Updated: 2022/01/26 18:24:26 by jsanfeli         ###   ########.fr       */
+/*   Updated: 2022/03/01 17:47:17 by jporta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,5 +80,6 @@ void			pressftotalk(t_philo *philo, int i);
 void			ft_finthread(t_gen *gen);
 int				ft_errors(int argc, char **argv);
 void			phinit(t_philo *philo, t_gen *gen);
+void			sleepingandthink(t_philo *philo);
 
 #endif

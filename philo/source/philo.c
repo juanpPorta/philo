@@ -6,7 +6,7 @@
 /*   By: jporta <jporta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/17 17:31:47 by jsanfeli          #+#    #+#             */
-/*   Updated: 2022/03/01 17:17:28 by jporta           ###   ########.fr       */
+/*   Updated: 2022/03/01 18:25:15 by jporta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,20 +52,11 @@ void	*managment_2(void *prueba)
 	while (philo->lst->running == 1 && philo->eats < (int)philo->lst->eattime)
 	{
 		pickfork(philo);
-		usleep(50);
+		usleep(20);
 		getupdatetime(philo);
 		if (philo->lst->running == 1)
 			pressftotalk(philo, 3);
-		usleep(50);
-		myusleep(philo->lst->timetoeat, philo);
-		sleeping(philo);
-		usleep(50);
-		myusleep(philo->lst->timetosleep, philo);
-		usleep(50);
-		if (philo->lst->running == 1)
-			pressftotalk(philo, 0);
-/* 		while (checktime(philo) < philo->lst->deathtime - 30)
-		 	myusleep(100, philo); */
+		sleepingandthink(philo);
 	}
 	return (0);
 }
@@ -84,46 +75,36 @@ void	*managment_1(void *prueba)
 	while (philo->lst->running == 1)
 	{
 		pickfork(philo);
-		usleep(50);
+		usleep(20);
 		getupdatetime(philo);
 		if (philo->lst->running == 1)
 			pressftotalk(philo, 3);
-		usleep(50);
-		myusleep(philo->lst->timetoeat, philo);
-		sleeping(philo);
-		usleep(50);
-		myusleep(philo->lst->timetosleep, philo);
-		usleep(50);
-		if (philo->lst->running == 1)
-			pressftotalk(philo, 0);
-/* 		while (checktime(philo) < philo->lst->deathtime - 30)
-		 	myusleep(100, philo); */
+		sleepingandthink(philo);
 	}
 	return (0);
 }
 
 void	deathswitch(t_philo *philo, t_gen *gen)
 {
-	int				i;
-	int				k;
+	int				i[2];
 
 	philo->lst->running = 1;
 	while (1)
 	{
-		k = 0;
-		i = -1;
-		while (++i < gen->philo_num)
+		i[1] = 0;
+		i[0] = -1;
+		while (++i[0] < gen->philo_num)
 		{
-			k += philo[i].eats;
-			if (philo[i].lst->deathtime < checktime(&philo[i]))
+			i[1] += philo[i[0]].eats;
+			if (philo[i[0]].lst->deathtime < checktime(&philo[i[0]]))
 			{
 				gen->running = 0;
-				pressftotalk(&philo[i], 5);
+				pressftotalk(&philo[i[0]], 5);
 				return ;
 			}
 			usleep(500);
 		}
-		if (((int)gen->eattime * gen->philo_num) == k && gen->eattime != 0)
+		if (((int)gen->eattime * gen->philo_num) == i[1] && gen->eattime != 0)
 		{
 			gen->running = 0;
 			pthread_mutex_lock(&philo->lst->wait);

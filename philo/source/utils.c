@@ -6,7 +6,7 @@
 /*   By: jporta <jporta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/17 18:40:34 by jsanfeli          #+#    #+#             */
-/*   Updated: 2022/03/01 17:09:20 by jporta           ###   ########.fr       */
+/*   Updated: 2022/03/01 18:26:13 by jporta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,19 @@
 
 void	ft_finthread(t_gen *gen)
 {
-	int	i;
+/* 	int	i;
 
-	/* i = -1;
+	i = -1;
 	while (++i < gen->philo_num)
 	{
-		//pthread_mutex_unlock(&gen->mutex_forks[i]);
-		//pthread_mutex_destroy(&gen->mutex_forks[i]);
-		
+		pthread_mutex_unlock(&gen->mutex_forks[i]);
 	} */
+	//pthread_mutex_destroy(gen->mutex_forks);
 	pthread_mutex_unlock(&gen->wait);
 	pthread_mutex_destroy(&gen->wait);
-	free(gen->forks);
+	//free(gen->forks);
 	free(gen->threads);
+	system("leaks philo");
 }
 
 int	ft_errors(int argc, char **argv)
@@ -41,6 +41,10 @@ int	ft_errors(int argc, char **argv)
 	{
 		aux = ft_atoi_special(argv[i]);
 		if (aux > 2147483648 || aux <= 0)
+			return (1);
+		if (i == 1 && aux > 200)
+			return (1);
+		if ((i == 2 || i == 3 || i == 4) && aux < 60)
 			return (1);
 	}
 	return (0);
@@ -63,8 +67,8 @@ t_gen	structinit(char **argv, int argc)
 	gen.firsttime = ((unsigned long)gen.reftime.tv_sec * 1000)
 		+ ((unsigned long)gen.reftime.tv_usec / 1000);
 	gen.forks = (int *)malloc(gen.philo_num);
-	gen.mutex_forks = (pthread_mutex_t *)malloc(gen.philo_num);
-	gen.threads = (pthread_t *)malloc(sizeof(pthread_t) * gen.philo_num);
+	gen.mutex_forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
+	gen.threads = (pthread_t *)malloc(sizeof(pthread_t));
 	return (gen);
 }
 
@@ -91,7 +95,7 @@ void	pickfork(t_philo *philo)
 			philo->count++;
 		}
 		pthread_mutex_unlock(philo->mutex_right);
-		usleep(50);
+		usleep(20);
 		pthread_mutex_lock(philo->mutex_left);
 		if (philo->lst->running == 1
 			&& philo->lst->forks[philo->fork_left] == 0)
@@ -100,7 +104,7 @@ void	pickfork(t_philo *philo)
 			pressftotalk(philo, 1);
 			philo->count++;
 		}
-		usleep(50);
+		usleep(20);
 		pthread_mutex_unlock(philo->mutex_left);
 	}
 	philo->count = 0;
