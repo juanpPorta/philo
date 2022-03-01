@@ -6,7 +6,7 @@
 /*   By: jporta <jporta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/17 18:40:34 by jporta            #+#    #+#             */
-/*   Updated: 2022/03/01 20:59:00 by jporta           ###   ########.fr       */
+/*   Updated: 2022/03/02 00:02:24 by jporta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,9 @@ t_gen	structinit(char **argv, int argc)
 	gettimeofday(&gen.reftime, NULL);
 	gen.firsttime = ((unsigned long)gen.reftime.tv_sec * 1000)
 		+ ((unsigned long)gen.reftime.tv_usec / 1000);
-	gen.forks = calloc(sizeof(int), gen.philo_num);
-	gen.mutex_forks = calloc(sizeof(pthread_mutex_t), gen.philo_num);
-	gen.threads = calloc(sizeof(pthread_t), gen.philo_num);
+	gen.forks = ft_calloc(sizeof(int), gen.philo_num);
+	gen.mutex_forks = ft_calloc(sizeof(pthread_mutex_t), gen.philo_num);
+	gen.threads = ft_calloc(sizeof(pthread_t), gen.philo_num);
 	return (gen);
 }
 

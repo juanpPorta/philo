@@ -6,7 +6,7 @@
 /*   By: jporta <jporta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 20:53:53 by jporta            #+#    #+#             */
-/*   Updated: 2022/03/01 20:53:56 by jporta           ###   ########.fr       */
+/*   Updated: 2022/03/02 00:03:12 by jporta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,5 +81,8 @@ void			ft_finthread(t_gen *gen);
 int				ft_errors(int argc, char **argv);
 void			phinit(t_philo *philo, t_gen *gen);
 void			sleepingandthink(t_philo *philo);
+void			*ft_calloc(size_t num, size_t size);
+void			ft_bzero(void *s, size_t n);
+void			*ft_memset(void *str, int c, size_t n);
 
 #endif
