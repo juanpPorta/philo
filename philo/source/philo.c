@@ -6,7 +6,7 @@
 /*   By: jporta <jporta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 20:53:03 by jporta            #+#    #+#             */
-/*   Updated: 2022/03/01 20:53:18 by jporta           ###   ########.fr       */
+/*   Updated: 2022/03/01 21:03:18 by jporta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ void	pressftotalk(t_philo *philo, int i)
 	{
 		philo->eats++;
 		printf(COLOR_MAGENTA
-			"%lu %d is eating eats: %d\n" COLOR_RESET, timestamp(philo),
-			philo->index, philo->eats);
+			"%lu %d is eating\n" COLOR_RESET, timestamp(philo),
+			philo->index);
 	}
 	else if (i == 4 && philo->lst->running == 1)
 		printf(COLOR_CYAN
